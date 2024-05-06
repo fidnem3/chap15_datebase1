@@ -1,8 +1,11 @@
-package com.seok.sec01.execution;
+package com.seok.sec01.execution2;
 
 
+import com.seok.sec01.dao.DatebaseConnection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
     /**
@@ -13,25 +16,9 @@ import java.util.Scanner;
         public static void main(String[] args) {
             Connection conn = null;
             Scanner scanner = new Scanner(System.in);
-            try {
-                Class.forName("oracle.jdbc.OracleDriver");
-                conn = DriverManager.getConnection(
-                        "jdbc:oracle:thin:@localhost:1521:orcl", "school", "1234");
-                System.out.println("DB 접속 성공");
+            conn = DatebaseConnection.getConnection();
+            registerStudent(conn, scanner);
 
-                registerStudent(conn, scanner);
-
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (conn != null) conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         } // end of main
 
         private static void registerStudent(Connection conn, Scanner scanner) {

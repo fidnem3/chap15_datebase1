@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * 학생 데이터를 삭제하는 클래스
  */
-public class DepartmentDelete {
+public class TakesDelete {
     // 오라클 DB에 접속해서 하기 위한 정보
     public static void main(String[] args) {
         Connection conn = null;
@@ -38,25 +38,29 @@ public class DepartmentDelete {
     private static void deleteStudent(Connection conn, Scanner scanner) {
         PreparedStatement pstmt = null;
         try {
-            System.out.print("삭제할 학과의 ID를 입력하세요: ");
+            System.out.print("삭제할 목록의 ID를 입력하세요: ");
             String id = scanner.nextLine();
+            System.out.print("삭제할 목록의 학과코드를 입력하세요: ");
+            String subject = scanner.nextLine();
+
 
             // SQL 쿼리문 작성
-            String sql = "DELETE FROM department WHERE department_id = ?";
+            String sql = "DELETE FROM takes WHERE student_id = ? and subject = ?";
 
             // PreparedStatement 생성
             pstmt = conn.prepareStatement(sql);
 
             // PreparedStatement에 파라미터 설정
             pstmt.setString(1, id);
+            pstmt.setString(2, subject);
 
             // SQL 실행
             int rowsDeleted = pstmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("학과 정보가 성공적으로 삭제되었습니다.");
+                System.out.println("목록 정보가 성공적으로 삭제되었습니다.");
             } else {
-                System.out.println("해당 ID의 학과을 찾을 수 없습니다.");
+                System.out.println("해당 ID의 목록을 찾을 수 없습니다.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
