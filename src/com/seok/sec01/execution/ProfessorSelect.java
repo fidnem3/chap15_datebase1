@@ -2,10 +2,7 @@ package com.seok.sec01.execution;
 
 
 
-import com.seok.sec01.domain.Student;
-
 import java.sql.*;
-import java.util.List;
 
 /**
      * 학생 목록을 조회하는 프로그램
@@ -21,7 +18,7 @@ import java.util.List;
      * 8. 예외 처리 : try-catch-finally 블록을 이용해서 예외 처리
      *
      */
-    public class StudentSelect {
+    public class ProfessorSelect {
         // 오라클 DB에 접속해서 하기 위한 정보
         public static void main(String[] args) {
             Connection conn = null;
@@ -48,11 +45,11 @@ import java.util.List;
         } // end of main
 
         private static void displayStudents(Connection conn) {
-            System.out.println("등록된 학생 목록:");
+            System.out.println("등록된 교수 목록:");
             // 쿼리문 작성
-            String sql = "SELECT s.student_id, s.name, s.year, s.address, s.department_id " +
-                    "FROM student s " +
-                    "ORDER BY s.student_id";
+            String sql = "SELECT p.professor_id, p.jumin, p.name, p.department_id, p.grade, p.hiredate " +
+                    "FROM professor p " +
+                    "ORDER BY p.professor_id ";
             try  {
                 // PreparedStatement : 쿼리 실핼을 위한 객체
                 // 커넥션 객체로 부터 얻어낸 PreparedStatement 객체를 이용해서 쿼리 실행
@@ -61,13 +58,14 @@ import java.util.List;
                 ResultSet rs = pstmt.executeQuery(); // 조회할때
                 // while 문을 이용해서 ResultSet 객체에 담긴 결과를 하나씩 꺼내서 출력
                 while (rs.next()) {
-                    String studentId = rs.getString("student_id");
+                    String professorId = rs.getString("professor_id");
+                    String jumin = rs.getString("jumin");
                     String name = rs.getString("name");
-                    int year = rs.getInt("year");
-                    String address = rs.getString("address");
                     int departmentId = rs.getInt("department_id");
-                    System.out.println(studentId + "\t" + name + "\t" + year + "\t"
-                            + address + "\t" + departmentId);
+                    String grade = rs.getString("grade");
+                    Date hiredate = rs.getDate("hiredate");
+                    System.out.println(professorId + "\t" + jumin + "\t" + name + "\t" + departmentId + "\t"
+                            + grade + "\t" + hiredate);
                     // ResultSet 에 있는 행들을 하나씩 학생 객체
                 }
             } catch (SQLException e) {

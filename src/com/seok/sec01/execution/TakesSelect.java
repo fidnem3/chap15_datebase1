@@ -18,7 +18,7 @@ import java.sql.*;
      * 8. 예외 처리 : try-catch-finally 블록을 이용해서 예외 처리
      *
      */
-    public class DepartmentSelect {
+    public class TakesSelect {
         // 오라클 DB에 접속해서 하기 위한 정보
         public static void main(String[] args) {
             Connection conn = null;
@@ -47,9 +47,9 @@ import java.sql.*;
         private static void displayStudents(Connection conn) {
             System.out.println("등록된 교수 목록:");
             // 쿼리문 작성
-            String sql = "SELECT d.department_id, d.name, d.office " +
-                    "FROM department d " +
-                    "ORDER BY d.department_id ";
+            String sql = "SELECT t.student_id, t.subject, t.score " +
+                    "FROM takes t " +
+                    "ORDER BY t.student_id ";
             try  {
                 // PreparedStatement : 쿼리 실핼을 위한 객체
                 // 커넥션 객체로 부터 얻어낸 PreparedStatement 객체를 이용해서 쿼리 실행
@@ -58,10 +58,10 @@ import java.sql.*;
                 ResultSet rs = pstmt.executeQuery(); // 조회할때
                 // while 문을 이용해서 ResultSet 객체에 담긴 결과를 하나씩 꺼내서 출력
                 while (rs.next()) {
-                    int departmentId = rs.getInt("department_id");
-                    String name = rs.getString("name");
-                    String office = rs.getString("office");
-                    System.out.println(departmentId + "\t" + name + "\t" + office);
+                    String studnetId = rs.getString("student_id");
+                    String subject = rs.getString("subject");
+                    String score = rs.getString("score");
+                    System.out.println(studnetId + "\t" + subject  + "\t" + score);
                     // ResultSet 에 있는 행들을 하나씩 학생 객체
                 }
             } catch (SQLException e) {
